@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using PdfiumViewer;
 
 
 namespace AnygesDesktopTeste.Forms
@@ -16,10 +21,16 @@ namespace AnygesDesktopTeste.Forms
     {
 
         ClasseConexao conexao = new ClasseConexao();
-
+        PdfiumViewer.PdfViewer pdf;
+        private PdfiumViewer.PdfDocument pdfDocument = null;
+        private PdfViewer pdfViewer = null;
         public frmCentDistAprov()
         {
             InitializeComponent();
+            pdf = new PdfiumViewer.PdfViewer();
+            pdf.Dock = DockStyle.Fill;
+            pdf.Visible = false; // invisível inicialmente
+            this.Controls.Add(pdf);
         }
 
         private void frmCentDistAprov_Load(object sender, EventArgs e)
@@ -29,29 +40,30 @@ namespace AnygesDesktopTeste.Forms
             CarregarGrid();
             PreencherTextBoxes(0);
             BloquearTextBoxes();
+            btnFecharPDF.Visible = false;
         }
 
 
-private void CarregarGrid()
-{
+        private void CarregarGrid()
+        {
             string sql = "SELECT * FROM tblLocalDeposito WHERE aprovado_depo = 'S'";
 
             try
             {
                 DataTable dtOriginal = conexao.executarSQL(sql);
 
-          
+
                 string[] colunasBinarias = { "CNPJ_depo", "certificacao_depo", "alvara_depo", "licenca_depo", "comprovante_depo" };
 
-         
+
                 DataTable dtConvertido = new DataTable();
 
                 foreach (DataColumn col in dtOriginal.Columns)
                 {
                     if (colunasBinarias.Contains(col.ColumnName))
-                        dtConvertido.Columns.Add(col.ColumnName, typeof(string)); 
+                        dtConvertido.Columns.Add(col.ColumnName, typeof(string));
                     else
-                        dtConvertido.Columns.Add(col.ColumnName, col.DataType); 
+                        dtConvertido.Columns.Add(col.ColumnName, col.DataType);
                 }
 
                 foreach (DataRow rowOrig in dtOriginal.Rows)
@@ -141,7 +153,7 @@ private void CarregarGrid()
         }
 
 
-       
+
 
         public string ByteArrayToHexString(byte[] bytes)
         {
@@ -194,7 +206,8 @@ private void CarregarGrid()
                 cmd.Parameters.AddWithValue("@Comprovante", HexStringToByteArray(txtComprovante.Text.Replace("0x", "")));
 
 
-                conexao.manutencaoDB_Parametros(cmd); 
+
+                conexao.manutencaoDB_Parametros(cmd);
                 CarregarGrid();
                 BloquearTextBoxes();
             }
@@ -254,6 +267,229 @@ private void CarregarGrid()
             {
                 MessageBox.Show("Nenhum registro encontrado!");
             }
+        }
+
+        private static void AddCellToHeader(PdfPTable tableLayout, string cellText)
+        {
+            tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8)))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Padding = 10,
+                BackgroundColor = new iTextSharp.text.BaseColor(255, 255, 255)
+            });
+        }
+
+
+
+        private static void AddCellToBody(PdfPTable tableLayout, string cellText, int count) //Efeito fundo: cinza e claro
+        {
+            if (count % 2 == 0)
+            {
+                tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA, 8, 1, iTextSharp.text.BaseColor.BLACK)))
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8,
+                    BackgroundColor = new iTextSharp.text.BaseColor(255, 255, 255)
+                });
+            }
+            else
+            {
+                tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA, 8, 1, iTextSharp.text.BaseColor.BLACK)))
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8,
+                    BackgroundColor = new iTextSharp.text.BaseColor(230, 230, 230)
+                });
+            }
+        }
+
+
+        private void GerarPDF_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Arquivo PDF (*.pdf)|*.pdf";
+            saveFileDialog.Title = "Salvar relatório em PDF";
+            saveFileDialog.FileName = "RelatorioCentroDeDistribuição.pdf";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                    {
+                        Document document = new Document(PageSize.A4.Rotate(), 10f, 10f, 10f, 10f);
+                        PdfWriter.GetInstance(document, stream);
+
+                        document.Open();
+
+                        PdfPTable tableLayout = new PdfPTable(10); 
+                        tableLayout = corpo_documento(tableLayout); 
+
+                        document.Add(tableLayout);
+                        document.Close(); // <<< IMPORTANTE!
+                        stream.Close();
+                    }
+
+                    MessageBox.Show("PDF gerado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao gerar PDF: " + ex.Message);
+                }
+            }
+        }
+        private List<Control> controlesVisiveisAntesPDF = new List<Control>();
+        private void btnAbrirPDF_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Arquivos PDF (*.pdf)|*.pdf";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Fecha se já existe um PDF aberto
+                    if (pdfDocument != null)
+                    {
+                        pdfViewer.Document.Dispose();
+                        pdfDocument.Dispose();
+                        pdfViewer.Dispose();
+                        pdfDocument = null;
+                        pdfViewer = null;
+                    }
+
+                    // Salva os controles visíveis
+                    controlesVisiveisAntesPDF.Clear();
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        if (ctrl.Visible && ctrl != btnFecharPDF)
+                            controlesVisiveisAntesPDF.Add(ctrl);
+                    }
+
+                    // Oculta todos os controles, exceto o botão de fechar
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        if (ctrl != btnFecharPDF)
+                            ctrl.Visible = false;
+                    }
+
+                    // Cria novo visualizador
+                    pdfViewer = new PdfViewer();
+                    pdfViewer.Name = "visualizadorPDF";
+                    pdfViewer.Dock = DockStyle.Fill;
+
+                    pdfDocument = PdfiumViewer.PdfDocument.Load(ofd.FileName);
+                    pdfViewer.Document = pdfDocument;
+
+                    this.Controls.Add(pdfViewer);
+                    pdfViewer.BringToFront();
+
+                    btnFecharPDF.Visible = true;
+                    btnFecharPDF.BringToFront();
+                    btnFecharPDF.FlatStyle = FlatStyle.Popup;
+                    btnFecharPDF.BackColor = Color.ForestGreen;
+                    btnFecharPDF.ForeColor = Color.White;
+                    btnFecharPDF.Font = new System.Drawing.Font("Inria Sans", 8.25f, FontStyle.Bold);
+
+
+                }
+            }
+
+        }
+
+        protected PdfPTable corpo_documento(PdfPTable tableLayout)
+        {
+            float[] headers = { 10, 30, 30, 20, 20, 15, 20, 20, 20, 20};
+            tableLayout.SetWidths(headers);
+            tableLayout.WidthPercentage = 100;
+            tableLayout.HeaderRows = 1;
+
+            AddCellToHeader(tableLayout, "Id");
+            AddCellToHeader(tableLayout, "Nome");
+            AddCellToHeader(tableLayout, "Email");
+            AddCellToHeader(tableLayout, "Codigo");
+
+            AddCellToHeader(tableLayout, "Aprovado");
+            AddCellToHeader(tableLayout, "Cnpj");
+            AddCellToHeader(tableLayout, "Certidao");
+            AddCellToHeader(tableLayout, "Alvara");
+            AddCellToHeader(tableLayout, "Licenca");
+            AddCellToHeader(tableLayout, "Comprovante");
+
+
+
+            // Corpo
+            DataTable dt = conexao.executarSQL("SELECT * FROM tblLocalDeposito");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+                AddCellToBody(tableLayout, dt.Rows[i]["ID_local_deposito"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["nome_depo"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["email_depo"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["codigo_depo"].ToString(), i);
+
+                AddCellToBody(tableLayout, dt.Rows[i]["aprovado_depo"].ToString(), i);
+
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["CNPJ_depo"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["certificacao_depo"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["alvara_depo"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["licenca_depo"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["comprovante_depo"] as byte[]), i);
+
+  
+
+            }
+
+            return tableLayout;
+        }
+
+        private void btnFecharPDF_Click(object sender, EventArgs e)
+        {
+
+            if (pdfViewer != null)
+            {
+                if (pdfDocument != null)
+                {
+                    pdfDocument.Dispose();
+                    pdfDocument = null;
+                }
+
+                this.Controls.Remove(pdfViewer);
+                pdfViewer.Dispose();
+                pdfViewer = null;
+            }
+
+            // Restaura controles visíveis
+            foreach (Control ctrl in controlesVisiveisAntesPDF)
+            {
+                ctrl.Visible = true;
+            }
+
+            btnFecharPDF.Visible = false;
+        }
+
+        private void btnFecharPDF_Click_1(object sender, EventArgs e)
+        {
+
+            if (pdfViewer != null)
+            {
+                if (pdfDocument != null)
+                {
+                    pdfDocument.Dispose();
+                    pdfDocument = null;
+                }
+
+                this.Controls.Remove(pdfViewer);
+                pdfViewer.Dispose();
+                pdfViewer = null;
+            }
+
+            // Restaura controles visíveis
+            foreach (Control ctrl in controlesVisiveisAntesPDF)
+            {
+                ctrl.Visible = true;
+            }
+
+            btnFecharPDF.Visible = false;
         }
     }
 }

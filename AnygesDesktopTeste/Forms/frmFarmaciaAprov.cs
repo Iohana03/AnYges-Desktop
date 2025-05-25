@@ -28,7 +28,7 @@ namespace AnygesDesktopTeste.Forms
             InitializeComponent();
             pdf = new PdfiumViewer.PdfViewer();
             pdf.Dock = DockStyle.Fill;
-            pdf.Visible = false; // invisível inicialmente
+            pdf.Visible = false; 
             this.Controls.Add(pdf);
         }
 
@@ -271,7 +271,7 @@ WHERE ID_associacao = @Id");
                 txtRegistro.Text = ByteArrayToHexString((byte[])dt.Rows[0]["registro_assoc"]);
                 txtidAssoc.Text = dt.Rows[0]["ID_associacao"].ToString();
                 txtCodigoAssoc.Text = dt.Rows[0]["codigo_assoc"].ToString();
-                txtsenhaAssoc.Text = dt.Rows[0]["senha_assoc"].ToString();
+   
                 txtCodigoAssoc.Text = dt.Rows[0]["codigo_assoc"].ToString();
                 txtAprovadaAssoc.Text = dt.Rows[0]["aprovada_assoc"].ToString();
 
@@ -303,7 +303,7 @@ WHERE ID_associacao = @Id");
             AddCellToHeader(tableLayout, "Nome");
             AddCellToHeader(tableLayout, "Email");
             AddCellToHeader(tableLayout, "Codigo");
-            AddCellToHeader(tableLayout, "Senha");
+         
             AddCellToHeader(tableLayout, "Aprovado");
             AddCellToHeader(tableLayout, "Cnpj");
             AddCellToHeader(tableLayout, "Contrato");
@@ -312,6 +312,8 @@ WHERE ID_associacao = @Id");
             AddCellToHeader(tableLayout, "Regularidade");
             AddCellToHeader(tableLayout, "Registro");
             AddCellToHeader(tableLayout, "Inscricao");
+
+
 
             // Corpo
             DataTable dt = con.executarSQL("SELECT * FROM tblAssociacao");
@@ -323,7 +325,7 @@ WHERE ID_associacao = @Id");
                 AddCellToBody(tableLayout, dt.Rows[i]["nome_assoc"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["email_assoc"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["codigo_assoc"].ToString(), i);
-                AddCellToBody(tableLayout, dt.Rows[i]["senha_assoc"].ToString(), i);
+          
                 AddCellToBody(tableLayout, dt.Rows[i]["aprovada_assoc"].ToString(), i);
 
                 AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["CNPJ_assoc"] as byte[]), i);
@@ -360,7 +362,7 @@ WHERE ID_associacao = @Id");
         }
         private void GerarPDF_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+              SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Arquivo PDF (*.pdf)|*.pdf";
             saveFileDialog.Title = "Salvar relatório em PDF";
             saveFileDialog.FileName = "RelatorioAssociacoes.pdf";
@@ -448,12 +450,6 @@ WHERE ID_associacao = @Id");
                 }
             }
         }
-
-     
-        
-   
-       
-
         private void btnFecharPDF_Click_1(object sender, EventArgs e)
         {
 

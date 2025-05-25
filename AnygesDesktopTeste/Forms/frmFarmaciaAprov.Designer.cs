@@ -521,9 +521,9 @@ namespace AnygesDesktopTeste.Forms
             // 
             this.btnFecharPDF.BackColor = System.Drawing.Color.ForestGreen;
             this.btnFecharPDF.Font = new System.Drawing.Font("Inria Sans", 8.25F, System.Drawing.FontStyle.Bold);
-            this.btnFecharPDF.Location = new System.Drawing.Point(714, -1);
+            this.btnFecharPDF.Location = new System.Drawing.Point(728, -2);
             this.btnFecharPDF.Name = "btnFecharPDF";
-            this.btnFecharPDF.Size = new System.Drawing.Size(50, 27);
+            this.btnFecharPDF.Size = new System.Drawing.Size(50, 22);
             this.btnFecharPDF.TabIndex = 37;
             this.btnFecharPDF.Text = "Voltar";
             this.btnFecharPDF.UseVisualStyleBackColor = false;

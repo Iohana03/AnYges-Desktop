@@ -8,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using PdfiumViewer;
 
 
 namespace AnygesDesktopTeste.Forms
@@ -15,11 +20,18 @@ namespace AnygesDesktopTeste.Forms
     public partial class frmFarmaciaRev : Form
     
     {
-        ClasseConexao conexao = new ClasseConexao();
+        ClasseConexao con = new ClasseConexao();
         DataTable dt;
+        PdfiumViewer.PdfViewer pdf;
+        private PdfiumViewer.PdfDocument pdfDocument = null;
+        private PdfViewer pdfViewer = null;
         public frmFarmaciaRev()
         {
             InitializeComponent();
+            pdf = new PdfiumViewer.PdfViewer();
+            pdf.Dock = DockStyle.Fill;
+            pdf.Visible = false;
+            this.Controls.Add(pdf);
         }
         private void CarregarGrid()
         {
@@ -28,7 +40,7 @@ namespace AnygesDesktopTeste.Forms
 
             try
             {
-                DataTable dtOriginal = conexao.executarSQL(sql);
+                DataTable dtOriginal = con.executarSQL(sql);
 
 
                 string[] colunasBinarias = { "CNPJ_assoc", "contrato_assoc", "certidao_assoc", "inscricao_assoc", "alvara_assoc", "regularidade_assoc", "registro_assoc" };
@@ -226,6 +238,7 @@ namespace AnygesDesktopTeste.Forms
             CarregarGrid();
             PreencherTextBoxes(0);
             BloquearTextBoxes();
+            btnFecharPDF.Visible = false;
         }
 
         private void BtnEditar_Click(object sender, EventArgs e)
@@ -272,10 +285,177 @@ WHERE ID_associacao = @Id");
             cmd.Parameters.AddWithValue("@Registro", HexStringToByteArray(txtRegistro.Text.Replace("0x", "")));
             cmd.Parameters.AddWithValue("@Inscricao", HexStringToByteArray(txtInscricao.Text.Replace("0x", "")));
 
-            conexao.manutencaoDB_Parametros(cmd);
+            con.manutencaoDB_Parametros(cmd);
             CarregarGrid();
             BloquearTextBoxes();
 
+        }
+        private static void AddCellToHeader(PdfPTable tableLayout, string cellText)
+        {
+            tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8)))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Padding = 10,
+                BackgroundColor = new iTextSharp.text.BaseColor(255, 255, 255)
+            });
+        }
+        protected PdfPTable corpo_documento(PdfPTable tableLayout)
+        {
+            float[] headers = { 10, 30, 30, 20, 20, 15, 20, 20, 20, 20, 20, 20, 20 };
+            tableLayout.SetWidths(headers);
+            tableLayout.WidthPercentage = 100;
+            tableLayout.HeaderRows = 1;
+
+            AddCellToHeader(tableLayout, "Id");
+            AddCellToHeader(tableLayout, "Nome");
+            AddCellToHeader(tableLayout, "Email");
+            AddCellToHeader(tableLayout, "Codigo");
+
+            AddCellToHeader(tableLayout, "Aprovado");
+            AddCellToHeader(tableLayout, "Cnpj");
+            AddCellToHeader(tableLayout, "Contrato");
+            AddCellToHeader(tableLayout, "Certidao");
+            AddCellToHeader(tableLayout, "Alvara");
+            AddCellToHeader(tableLayout, "Regularidade");
+            AddCellToHeader(tableLayout, "Registro");
+            AddCellToHeader(tableLayout, "Inscricao");
+
+
+
+            // Corpo
+            DataTable dt = con.executarSQL("SELECT * FROM tblAssociacao WHERE aprovada_assoc ='R' ");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+                AddCellToBody(tableLayout, dt.Rows[i]["ID_associacao"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["nome_assoc"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["email_assoc"].ToString(), i);
+                AddCellToBody(tableLayout, dt.Rows[i]["codigo_assoc"].ToString(), i);
+
+                AddCellToBody(tableLayout, dt.Rows[i]["aprovada_assoc"].ToString(), i);
+
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["CNPJ_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["contrato_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["certidao_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["alvara_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["regularidade_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["registro_assoc"] as byte[]), i);
+                AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["inscricao_assoc"] as byte[]), i);
+            }
+
+            return tableLayout;
+        }
+        private static void AddCellToBody(PdfPTable tableLayout, string cellText, int count) //Efeito fundo: cinza e claro
+        {
+            if (count % 2 == 0)
+            {
+                tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA, 8, 1, iTextSharp.text.BaseColor.BLACK)))
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8,
+                    BackgroundColor = new iTextSharp.text.BaseColor(255, 255, 255)
+                });
+            }
+            else
+            {
+                tableLayout.AddCell(new PdfPCell(new Phrase(cellText, FontFactory.GetFont(FontFactory.HELVETICA, 8, 1, iTextSharp.text.BaseColor.BLACK)))
+                {
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8,
+                    BackgroundColor = new iTextSharp.text.BaseColor(230, 230, 230)
+                });
+            }
+        }
+
+        private void GerarPDF_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Arquivo PDF (*.pdf)|*.pdf";
+            saveFileDialog.Title = "Salvar relatório em PDF";
+            saveFileDialog.FileName = "RelatorioAssociacoes.pdf";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                    {
+                        Document document = new Document(PageSize.A4.Rotate(), 10f, 10f, 10f, 10f);
+                        PdfWriter.GetInstance(document, stream);
+
+                        document.Open();
+
+                        PdfPTable tableLayout = new PdfPTable(13); 
+                        tableLayout = corpo_documento(tableLayout);  
+
+                        document.Add(tableLayout);
+                        document.Close(); // <<< IMPORTANTE!
+                        stream.Close();
+                    }
+
+                    MessageBox.Show("PDF gerado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao gerar PDF: " + ex.Message);
+                }
+            }
+        }
+        private List<Control> controlesVisiveisAntesPDF = new List<Control>();
+        private void btnAbrirPDF_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Arquivos PDF (*.pdf)|*.pdf";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // Fecha se já existe um PDF aberto
+                    if (pdfDocument != null)
+                    {
+                        pdfViewer.Document.Dispose();
+                        pdfDocument.Dispose();
+                        pdfViewer.Dispose();
+                        pdfDocument = null;
+                        pdfViewer = null;
+                    }
+
+                    // Salva os controles visíveis
+                    controlesVisiveisAntesPDF.Clear();
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        if (ctrl.Visible && ctrl != btnFecharPDF)
+                            controlesVisiveisAntesPDF.Add(ctrl);
+                    }
+
+                    // Oculta todos os controles, exceto o botão de fechar
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        if (ctrl != btnFecharPDF)
+                            ctrl.Visible = false;
+                    }
+
+                    // Cria novo visualizador
+                    pdfViewer = new PdfViewer();
+                    pdfViewer.Name = "visualizadorPDF";
+                    pdfViewer.Dock = DockStyle.Fill;
+
+                    pdfDocument = PdfiumViewer.PdfDocument.Load(ofd.FileName);
+                    pdfViewer.Document = pdfDocument;
+
+                    this.Controls.Add(pdfViewer);
+                    pdfViewer.BringToFront();
+
+                    btnFecharPDF.Visible = true;
+                    btnFecharPDF.BringToFront();
+                    btnFecharPDF.FlatStyle = FlatStyle.Popup;
+                    btnFecharPDF.BackColor = Color.ForestGreen;
+                    btnFecharPDF.ForeColor = Color.White;
+                    btnFecharPDF.Font = new System.Drawing.Font("Inria Sans", 8.25f, FontStyle.Bold);
+
+
+                }
+            }
         }
     }
 }

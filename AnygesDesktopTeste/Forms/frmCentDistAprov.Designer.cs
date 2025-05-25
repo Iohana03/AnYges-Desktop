@@ -66,6 +66,9 @@ namespace AnygesDesktopTeste.Forms
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.btnFecharPDF = new System.Windows.Forms.Button();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.inscricao.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -137,6 +140,7 @@ namespace AnygesDesktopTeste.Forms
             this.btnAbrirPDF.TabIndex = 38;
             this.btnAbrirPDF.Text = "Abrir Relatorio";
             this.btnAbrirPDF.UseVisualStyleBackColor = false;
+            this.btnAbrirPDF.Click += new System.EventHandler(this.btnAbrirPDF_Click);
             // 
             // GerarPDF
             // 
@@ -148,6 +152,7 @@ namespace AnygesDesktopTeste.Forms
             this.GerarPDF.TabIndex = 37;
             this.GerarPDF.Text = "Gerar Relatorio";
             this.GerarPDF.UseVisualStyleBackColor = false;
+            this.GerarPDF.Click += new System.EventHandler(this.GerarPDF_Click);
             // 
             // label13
             // 
@@ -467,11 +472,24 @@ namespace AnygesDesktopTeste.Forms
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // btnFecharPDF
+            // 
+            this.btnFecharPDF.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnFecharPDF.Font = new System.Drawing.Font("Inria Sans", 8.25F, System.Drawing.FontStyle.Bold);
+            this.btnFecharPDF.Location = new System.Drawing.Point(738, -4);
+            this.btnFecharPDF.Name = "btnFecharPDF";
+            this.btnFecharPDF.Size = new System.Drawing.Size(50, 22);
+            this.btnFecharPDF.TabIndex = 38;
+            this.btnFecharPDF.Text = "Voltar";
+            this.btnFecharPDF.UseVisualStyleBackColor = false;
+            this.btnFecharPDF.Click += new System.EventHandler(this.btnFecharPDF_Click_1);
+            // 
             // frmCentDistAprov
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnFecharPDF);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
@@ -526,5 +544,8 @@ namespace AnygesDesktopTeste.Forms
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnAbrirPDF;
         private System.Windows.Forms.Button GerarPDF;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button btnFecharPDF;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }

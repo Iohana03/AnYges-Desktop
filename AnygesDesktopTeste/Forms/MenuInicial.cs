@@ -111,11 +111,8 @@ namespace AnygesDesktopTeste.Forms
             AbrirForm(new Forms.frmCentDistRev(), sender);
         }
 
-        private void btnAssociacao_Click(object sender, EventArgs e)
-        {
-            AbrirForm(new Forms.frmAssociacao(), sender);
-        }
+  
 
-        
+      
     }
 }

@@ -31,7 +31,6 @@ namespace AnygesDesktopTeste.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuInicial));
             this.painelBotoes = new System.Windows.Forms.Panel();
-            this.btnAssociacao = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnCentRev = new System.Windows.Forms.Button();
@@ -58,8 +57,8 @@ namespace AnygesDesktopTeste.Forms
             // painelBotoes
             // 
             this.painelBotoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(26)))), ((int)(((byte)(24)))));
-            this.painelBotoes.Controls.Add(this.btnAssociacao);
             this.painelBotoes.Controls.Add(this.label3);
+            this.painelBotoes.Controls.Add(this.label4);
             this.painelBotoes.Controls.Add(this.panel4);
             this.painelBotoes.Controls.Add(this.btnUser);
             this.painelBotoes.Controls.Add(this.btnCentAprov);
@@ -70,21 +69,6 @@ namespace AnygesDesktopTeste.Forms
             this.painelBotoes.Name = "painelBotoes";
             this.painelBotoes.Size = new System.Drawing.Size(147, 503);
             this.painelBotoes.TabIndex = 0;
-            // 
-            // btnAssociacao
-            // 
-            this.btnAssociacao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(97)))), ((int)(((byte)(36)))));
-            this.btnAssociacao.FlatAppearance.BorderSize = 0;
-            this.btnAssociacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAssociacao.Font = new System.Drawing.Font("Inria Sans", 15.75F);
-            this.btnAssociacao.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnAssociacao.Location = new System.Drawing.Point(1, 240);
-            this.btnAssociacao.Name = "btnAssociacao";
-            this.btnAssociacao.Size = new System.Drawing.Size(147, 45);
-            this.btnAssociacao.TabIndex = 12;
-            this.btnAssociacao.Text = "Associação";
-            this.btnAssociacao.UseVisualStyleBackColor = false;
-            this.btnAssociacao.Click += new System.EventHandler(this.btnAssociacao_Click);
             // 
             // label3
             // 
@@ -102,7 +86,6 @@ namespace AnygesDesktopTeste.Forms
             // 
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(26)))), ((int)(((byte)(24)))));
             this.panel4.Controls.Add(this.btnCentRev);
-            this.panel4.Controls.Add(this.label4);
             this.panel4.Controls.Add(this.btnFarmRev);
             this.panel4.Location = new System.Drawing.Point(-3, 280);
             this.panel4.Name = "panel4";
@@ -116,7 +99,7 @@ namespace AnygesDesktopTeste.Forms
             this.btnCentRev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCentRev.Font = new System.Drawing.Font("Inria Sans", 15.75F);
             this.btnCentRev.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCentRev.Location = new System.Drawing.Point(0, 91);
+            this.btnCentRev.Location = new System.Drawing.Point(0, 77);
             this.btnCentRev.Name = "btnCentRev";
             this.btnCentRev.Size = new System.Drawing.Size(150, 89);
             this.btnCentRev.TabIndex = 8;
@@ -129,7 +112,7 @@ namespace AnygesDesktopTeste.Forms
             this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(26)))), ((int)(((byte)(24)))));
             this.label4.Font = new System.Drawing.Font("Inria Sans", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label4.Location = new System.Drawing.Point(3, 8);
+            this.label4.Location = new System.Drawing.Point(0, 258);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(147, 37);
             this.label4.TabIndex = 11;
@@ -143,11 +126,11 @@ namespace AnygesDesktopTeste.Forms
             this.btnFarmRev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFarmRev.Font = new System.Drawing.Font("Inria Sans", 15.75F);
             this.btnFarmRev.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnFarmRev.Location = new System.Drawing.Point(4, 48);
+            this.btnFarmRev.Location = new System.Drawing.Point(3, 34);
             this.btnFarmRev.Name = "btnFarmRev";
             this.btnFarmRev.Size = new System.Drawing.Size(147, 37);
             this.btnFarmRev.TabIndex = 7;
-            this.btnFarmRev.Text = "Farmácias";
+            this.btnFarmRev.Text = "Associações";
             this.btnFarmRev.UseVisualStyleBackColor = false;
             this.btnFarmRev.Click += new System.EventHandler(this.btnFarmRev_Click);
             // 
@@ -192,7 +175,7 @@ namespace AnygesDesktopTeste.Forms
             this.btnFarmAprov.Name = "btnFarmAprov";
             this.btnFarmAprov.Size = new System.Drawing.Size(150, 45);
             this.btnFarmAprov.TabIndex = 3;
-            this.btnFarmAprov.Text = "Farmácias";
+            this.btnFarmAprov.Text = "Associações";
             this.btnFarmAprov.UseVisualStyleBackColor = false;
             this.btnFarmAprov.Click += new System.EventHandler(this.btnFarmAprov_Click);
             // 
@@ -233,7 +216,7 @@ namespace AnygesDesktopTeste.Forms
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(26)))), ((int)(((byte)(24)))));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(0, -3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(67, 57);
             this.pictureBox2.TabIndex = 8;
@@ -312,7 +295,6 @@ namespace AnygesDesktopTeste.Forms
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnAssociacao;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;
     }
