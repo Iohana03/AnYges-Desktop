@@ -37,19 +37,18 @@ namespace AnygesDesktopTeste
             }
             else if (tipo == "Associação") { 
             
-                sql = "SELECT codigo_assoc, senha_assoc FROM tblAssociacao WHERE codigo_assoc = @codigo AND senha_assoc = @senha";
+                sql = "SELECT ID_associacao, codigo_assoc, senha_assoc FROM tblAssociacao WHERE codigo_assoc = @codigo AND senha_assoc = @senha";
             }
             else if (tipo == "Local de Depósito") { 
          
-                sql = "SELECT codigo_depo, senha_depo FROM tblLocalDeposito WHERE codigo_depo = @codigo AND senha_depo = @senha";
+                sql =  "SELECT ID_local_deposito, codigo_depo, senha_depo FROM tblLocalDeposito WHERE codigo_depo = @codigo AND senha_depo = @senha";
+
             }
 
-            // Cria o comando e adiciona parâmetros
             SqlCommand comando = new SqlCommand(sql);
             comando.Parameters.AddWithValue("@codigo", email);
             comando.Parameters.AddWithValue("@senha", senha);
 
-            // Usa o novo método seguro
             dt = con.executarSQL_Parametros(comando);
 
             if (dt != null && dt.Rows.Count > 0)
@@ -63,14 +62,16 @@ namespace AnygesDesktopTeste
                 }
                 else if (tipo == "Associação")
                 {
-                    frmAssociacao assoc = new frmAssociacao();
+                    int idAssociacao = Convert.ToInt32(dt.Rows[0]["ID_associacao"]);
+                    A assoc = new A(idAssociacao); 
                     assoc.ShowDialog();
                 }
                 else if (tipo == "Local de Depósito")
                 {
-                    frmLocalDeDeposito LocalDepos = new frmLocalDeDeposito();
+                    int idLocal = Convert.ToInt32(dt.Rows[0]["ID_local_deposito"]);
+                    frmLocalDeDeposito LocalDepos = new frmLocalDeDeposito(idLocal);
                     LocalDepos.ShowDialog();
-                  
+
                 }
 
                 this.Close();
