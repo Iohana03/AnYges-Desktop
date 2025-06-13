@@ -50,8 +50,11 @@ namespace AnygesDesktopTeste.Forms
               
                 string caminhoRelativo = reader["imagem"].ToString();
 
-         
-                string pastaImagem = @"C:\Users\User\Documents\AnYges-Desktop";
+
+                // string pastaImagem = @"C:\Users\User\Documents\AnYges-Desktop";
+                string pastaImagem = @"C:\Users\Lab_ETESP\Documents\AnYges-Desktop";
+
+
                 string caminhoCompleto = Path.Combine(pastaImagem, caminhoRelativo);
 
                 if (File.Exists(caminhoCompleto))
@@ -119,7 +122,9 @@ namespace AnygesDesktopTeste.Forms
 
                 if (linhasAfetadas > 0)
                 {
-                    string caminhoImagemCompleto = Path.Combine(@"C:\Users\User\Documents\AnYges-Desktop", caminhoRelativo);
+                    //string caminhoImagemCompleto = Path.Combine(@"C:\Users\User\Documents\AnYges-Desktop", caminhoRelativo);
+                    string caminhoImagemCompleto = Path.Combine(@"C:\Users\Lab_ETESP\Documents\AnYges-Desktop", caminhoRelativo);
+
                     if (File.Exists(caminhoImagemCompleto))
                     {
                         File.Delete(caminhoImagemCompleto);

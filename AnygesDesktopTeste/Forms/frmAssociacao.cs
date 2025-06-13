@@ -36,7 +36,8 @@ namespace AnygesDesktopTeste.Forms
             {
                 string caminhoAbsoluto = openFileDialog.FileName;
                 string nomeArquivo = Path.GetFileName(caminhoAbsoluto);
-                string pastaDestino = @"C:\Users\User\Documents\AnYges-Desktop\src\imgs\cupons";
+                //string pastaDestino = @"C:\Users\User\Documents\AnYges-Desktop\src\imgs\cupons";
+                string pastaDestino = @"C:\Users\Lab_ETESP\Documents\AnYges-Desktop\src\imgs\cupons";
 
                 if (!Directory.Exists(pastaDestino))
                     Directory.CreateDirectory(pastaDestino);

@@ -15,8 +15,8 @@ using System.Data.SqlClient;
         {
             if (conexao == null || conexao.State == ConnectionState.Broken || conexao.State == ConnectionState.Closed)
             {
-                 String strConexao = "Password=12345; Persist Security Info=True; User ID=sa; Initial Catalog=anyges; Data Source=" + Environment.MachineName ;
-                //String strConexao = "Password=etesp; Persist Security Info=True; User ID=sa; Initial Catalog=teste; Data Source=" + Environment.MachineName + "\\SQLEXPRESS";
+                 //String strConexao = "Password=12345; Persist Security Info=True; User ID=sa; Initial Catalog=anyges; Data Source=" + Environment.MachineName ;
+                String strConexao = "Password=etesp; Persist Security Info=True; User ID=sa; Initial Catalog=anyges; Data Source=" + Environment.MachineName + "\\SQLEXPRESS";
                 conexao = new SqlConnection(strConexao);
                 conexao.Open();
             }

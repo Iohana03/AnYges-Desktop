@@ -35,29 +35,33 @@ namespace AnygesDesktopTeste.Forms
         }
         private void CarregarGrid()
         {
-
-            string sql = "SELECT * FROM tblAssociacao WHERE aprovada_assoc = 'R'";
-
             try
             {
-                DataTable dtOriginal = con.executarSQL(sql);
+
+                string sql = "SELECT * FROM tblAssociacao WHERE aprovada_assoc = @aprovada";
+                SqlCommand cmd = new SqlCommand(sql);
+                cmd.Parameters.AddWithValue("@aprovada", "R");
 
 
-                string[] colunasBinarias = { "CNPJ_assoc", "contrato_assoc", "certidao_assoc", "inscricao_assoc", "alvara_assoc", "regularidade_assoc", "registro_assoc" };
+                DataTable dtOriginal = con.executarSQL_Parametros(cmd);
+
+
+                string[] colunasBinarias = {
+            "CNPJ_assoc", "contrato_assoc", "certidao_assoc",
+            "inscricao_assoc", "alvara_assoc", "regularidade_assoc", "registro_assoc"
+        };
 
 
                 DataTable dtConvertido = new DataTable();
+
                 foreach (DataColumn col in dtOriginal.Columns)
                 {
-                    if (colunasBinarias.Contains(col.ColumnName) && !dtConvertido.Columns.Contains(col.ColumnName))
-                    {
-                        dtConvertido.Columns.Add(col.ColumnName, typeof(string));
-                    }
-                    else if (!dtConvertido.Columns.Contains(col.ColumnName))
-                    {
-                        dtConvertido.Columns.Add(col.ColumnName, col.DataType);
-                    }
+                    dtConvertido.Columns.Add(
+                        col.ColumnName,
+                        colunasBinarias.Contains(col.ColumnName) ? typeof(string) : col.DataType
+                    );
                 }
+
 
                 foreach (DataRow rowOrig in dtOriginal.Rows)
                 {
@@ -85,6 +89,7 @@ namespace AnygesDesktopTeste.Forms
 
                     dtConvertido.Rows.Add(rowNovo);
                 }
+
 
                 dataGridView1.DataSource = dtConvertido;
             }
@@ -310,7 +315,6 @@ WHERE ID_associacao = @Id");
             AddCellToHeader(tableLayout, "Nome");
             AddCellToHeader(tableLayout, "Email");
             AddCellToHeader(tableLayout, "Codigo");
-
             AddCellToHeader(tableLayout, "Aprovado");
             AddCellToHeader(tableLayout, "Cnpj");
             AddCellToHeader(tableLayout, "Contrato");
@@ -321,18 +325,16 @@ WHERE ID_associacao = @Id");
             AddCellToHeader(tableLayout, "Inscricao");
 
 
-
-            // Corpo
-            DataTable dt = con.executarSQL("SELECT * FROM tblAssociacao WHERE aprovada_assoc ='R' ");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM tblAssociacao WHERE aprovada_assoc = @aprovada");
+            cmd.Parameters.AddWithValue("@aprovada", "R");
+            DataTable dt = con.executarSQL_Parametros(cmd);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-
                 AddCellToBody(tableLayout, dt.Rows[i]["ID_associacao"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["nome_assoc"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["email_assoc"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["codigo_assoc"].ToString(), i);
-
                 AddCellToBody(tableLayout, dt.Rows[i]["aprovada_assoc"].ToString(), i);
 
                 AddCellToBody(tableLayout, ByteArrayToHexString(dt.Rows[i]["CNPJ_assoc"] as byte[]), i);

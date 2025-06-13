@@ -42,12 +42,10 @@ namespace AnygesDesktopTeste.Forms
         }
         private void CarregarGrid()
         {
-
-            string sql = "SELECT * FROM tblUsuario";
-
             try
             {
-                DataTable dt = conexao.executarSQL(sql);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tblUsuario");
+                DataTable dt = conexao.executarSQL_Parametros(cmd);
                 dataGridView1.DataSource = dt;
             }
             catch (Exception ex)
@@ -209,16 +207,12 @@ namespace AnygesDesktopTeste.Forms
             AddCellToHeader(tableLayout, "CPF");
             AddCellToHeader(tableLayout, "Telefone");
             AddCellToHeader(tableLayout, "Data de Nascimento");
-            
-         
 
-
-            // Corpo
-            DataTable dt = conexao.executarSQL("SELECT * FROM tblUsuario ");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM tblUsuario");
+            DataTable dt = conexao.executarSQL_Parametros(cmd);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-
                 AddCellToBody(tableLayout, dt.Rows[i]["Id_usuario"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["nome_usuario"].ToString(), i);
                 AddCellToBody(tableLayout, dt.Rows[i]["sobrenome_usuario"].ToString(), i);

@@ -84,11 +84,11 @@ namespace AnygesDesktopTeste.Forms
             // lblNomeForm
             // 
             this.lblNomeForm.AutoSize = true;
-            this.lblNomeForm.Font = new System.Drawing.Font("Inria Sans", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNomeForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNomeForm.ForeColor = System.Drawing.Color.White;
             this.lblNomeForm.Location = new System.Drawing.Point(281, 9);
             this.lblNomeForm.Name = "lblNomeForm";
-            this.lblNomeForm.Size = new System.Drawing.Size(248, 34);
+            this.lblNomeForm.Size = new System.Drawing.Size(317, 31);
             this.lblNomeForm.TabIndex = 0;
             this.lblNomeForm.Text = "GERENCIAR CUPONS";
             this.lblNomeForm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -104,7 +104,7 @@ namespace AnygesDesktopTeste.Forms
             // btnPesquisar
             // 
             this.btnPesquisar.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnPesquisar.Font = new System.Drawing.Font("Inria Sans", 8.25F, System.Drawing.FontStyle.Bold);
+            this.btnPesquisar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnPesquisar.Location = new System.Drawing.Point(568, 58);
             this.btnPesquisar.Name = "btnPesquisar";
             this.btnPesquisar.Size = new System.Drawing.Size(93, 27);
@@ -116,10 +116,10 @@ namespace AnygesDesktopTeste.Forms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Inria Sans", 15.75F);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F);
             this.label1.Location = new System.Drawing.Point(122, 58);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 26);
+            this.label1.Size = new System.Drawing.Size(66, 25);
             this.label1.TabIndex = 15;
             this.label1.Text = "Filtro:";
             // 
@@ -133,20 +133,20 @@ namespace AnygesDesktopTeste.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label2.Location = new System.Drawing.Point(68, 92);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 24);
+            this.label2.Size = new System.Drawing.Size(106, 24);
             this.label2.TabIndex = 18;
             this.label2.Text = "ID CUPOM:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label3.Location = new System.Drawing.Point(35, 117);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(130, 24);
+            this.label3.Size = new System.Drawing.Size(147, 24);
             this.label3.TabIndex = 19;
             this.label3.Text = "NOME CUPOM:";
             // 
@@ -160,10 +160,10 @@ namespace AnygesDesktopTeste.Forms
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label4.Location = new System.Drawing.Point(97, 145);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 24);
+            this.label4.Size = new System.Drawing.Size(79, 24);
             this.label4.TabIndex = 21;
             this.label4.Text = "VALOR:";
             // 
@@ -177,10 +177,10 @@ namespace AnygesDesktopTeste.Forms
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label5.Location = new System.Drawing.Point(112, 169);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 24);
+            this.label5.Size = new System.Drawing.Size(58, 24);
             this.label5.TabIndex = 23;
             this.label5.Text = "TIPO:";
             // 
@@ -194,10 +194,10 @@ namespace AnygesDesktopTeste.Forms
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label6.Location = new System.Drawing.Point(50, 197);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 24);
+            this.label6.Size = new System.Drawing.Size(125, 24);
             this.label6.TabIndex = 25;
             this.label6.Text = "DISPONÍVEL:";
             // 
@@ -218,10 +218,10 @@ namespace AnygesDesktopTeste.Forms
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label7.Location = new System.Drawing.Point(62, 221);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 24);
+            this.label7.Size = new System.Drawing.Size(122, 24);
             this.label7.TabIndex = 28;
             this.label7.Text = "DESCONTO:";
             // 
@@ -235,10 +235,10 @@ namespace AnygesDesktopTeste.Forms
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label9.Location = new System.Drawing.Point(61, 248);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(104, 24);
+            this.label9.Size = new System.Drawing.Size(122, 24);
             this.label9.TabIndex = 30;
             this.label9.Text = "APROVADO:";
             // 
@@ -253,10 +253,10 @@ namespace AnygesDesktopTeste.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Inria Sans", 14.25F);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label8.Location = new System.Drawing.Point(59, 274);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(106, 24);
+            this.label8.Size = new System.Drawing.Size(124, 24);
             this.label8.TabIndex = 32;
             this.label8.Text = "DESCRIÇÃO:";
             // 
@@ -265,13 +265,14 @@ namespace AnygesDesktopTeste.Forms
             this.pictureBoxCupom.Location = new System.Drawing.Point(431, 97);
             this.pictureBoxCupom.Name = "pictureBoxCupom";
             this.pictureBoxCupom.Size = new System.Drawing.Size(359, 313);
+            this.pictureBoxCupom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCupom.TabIndex = 34;
             this.pictureBoxCupom.TabStop = false;
             // 
             // BtnVoltar
             // 
             this.BtnVoltar.BackColor = System.Drawing.Color.ForestGreen;
-            this.BtnVoltar.Font = new System.Drawing.Font("Inria Sans", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnVoltar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnVoltar.Location = new System.Drawing.Point(417, 436);
             this.BtnVoltar.Name = "BtnVoltar";
             this.BtnVoltar.Size = new System.Drawing.Size(267, 38);
@@ -283,7 +284,7 @@ namespace AnygesDesktopTeste.Forms
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.ForestGreen;
-            this.button1.Font = new System.Drawing.Font("Inria Sans", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(116, 436);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(264, 38);
