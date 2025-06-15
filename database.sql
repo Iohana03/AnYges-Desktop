@@ -263,3 +263,4 @@ SELECT * FROM tblAssociacao;
 
 select * from tblDoacao
 SELECT * FROM tblCupom
+select * from tblFuncionario
