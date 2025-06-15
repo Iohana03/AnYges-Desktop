@@ -89,7 +89,7 @@ namespace AnygesDesktopTeste.Forms
             // TxtFiltro
             // 
             this.TxtFiltro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TxtFiltro.Location = new System.Drawing.Point(72, 3);
+            this.TxtFiltro.Location = new System.Drawing.Point(79, 3);
             this.TxtFiltro.Name = "TxtFiltro";
             this.TxtFiltro.Size = new System.Drawing.Size(355, 20);
             this.TxtFiltro.TabIndex = 11;
@@ -98,7 +98,7 @@ namespace AnygesDesktopTeste.Forms
             // 
             this.button1.BackColor = System.Drawing.Color.ForestGreen;
             this.button1.Font = new System.Drawing.Font("Inria Sans", 8.25F, System.Drawing.FontStyle.Bold);
-            this.button1.Location = new System.Drawing.Point(433, 1);
+            this.button1.Location = new System.Drawing.Point(440, -2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(93, 27);
             this.button1.TabIndex = 13;

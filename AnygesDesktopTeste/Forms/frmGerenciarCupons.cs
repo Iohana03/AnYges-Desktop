@@ -51,8 +51,8 @@ namespace AnygesDesktopTeste.Forms
                 string caminhoRelativo = reader["imagem"].ToString();
 
 
-                // string pastaImagem = @"C:\Users\User\Documents\AnYges-Desktop";
-                string pastaImagem = @"C:\Users\Lab_ETESP\Documents\AnYges-Desktop";
+                string pastaImagem = @"C:\Users\Pichau\Documents\AnYges-Desktop";
+                //string pastaImagem = @"C:\Users\Lab_ETESP\Documents\AnYges-Desktop";
 
 
                 string caminhoCompleto = Path.Combine(pastaImagem, caminhoRelativo);

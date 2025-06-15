@@ -382,8 +382,8 @@ WHERE ID_associacao = @Id");
 
                         document.Open();
 
-                        PdfPTable tableLayout = new PdfPTable(13); // 13 colunas
-                        tableLayout = corpo_documento(tableLayout); // seu método que preenche o conteúdo
+                        PdfPTable tableLayout = new PdfPTable(13); 
+                        tableLayout = corpo_documento(tableLayout); 
 
                         document.Add(tableLayout);
                         document.Close(); // <<< IMPORTANTE!
